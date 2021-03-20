@@ -1,5 +1,6 @@
-# spi-got-utils
-Finally a complete and useful library for all your Spigot plugins.
+<img src="./Logo.svg" width="318px" alt="Strapi logo" />
+
+#### Finally a complete and useful library for all your Spigot plugins.
 
 ## Installation
 // TODO expose to Maven
