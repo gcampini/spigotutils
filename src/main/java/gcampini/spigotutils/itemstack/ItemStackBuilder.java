@@ -3,6 +3,8 @@ package gcampini.spigotutils.itemstack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +36,10 @@ public class ItemStackBuilder {
         if (meta != null) modifier.accept(meta);
         stack.setItemMeta(meta);
         return this;
+    }
+
+    public ItemStackBuilder data(Consumer<PersistentDataContainer> modifier) {
+        return meta(meta -> modifier.accept(meta.getPersistentDataContainer()));
     }
 
     public ItemStackBuilder type(Material type) {
