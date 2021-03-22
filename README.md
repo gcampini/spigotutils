@@ -30,3 +30,6 @@ And much more. In fact, all you can think of!
 
 ## Contributing
 You can help me with this project by contributing. All ideas are welcome as long as it follows the purpose and idea of the project.
+
+## License
+This project is under **MIT License**.
