@@ -90,7 +90,7 @@ public class RectangularInventoryPortion extends InventoryPortion {
     }
 
     public void setItem(int x, int y, ItemStack stack) {
-        if (x < 0 || x > width || y < 0 || y > height) throw new IndexOutOfBoundsException("coords out of bounds");
+        if (x < 0 || x >= width || y < 0 || y >= height) throw new IndexOutOfBoundsException("coords out of bounds");
         setItem(y * width + x, stack);
     }
 

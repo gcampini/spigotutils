@@ -7,8 +7,7 @@ import org.bukkit.inventory.Inventory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for {@link RectangularInventoryPortion}.
@@ -36,6 +35,15 @@ public class RectangularInventoryPortionTest {
         assertDoesNotThrow(() -> new RectangularInventoryPortion(chest));
         assertDoesNotThrow(() -> new RectangularInventoryPortion(dropper));
         assertDoesNotThrow(() -> new RectangularInventoryPortion(dropper, 2, 2, 2));
+    }
+
+    @Test
+    public void testDimension() throws InventoryNotRectangularException {
+        Inventory chest = server.createInventory(server.addPlayer(), InventoryType.CHEST);
+        RectangularInventoryPortion portion = new RectangularInventoryPortion(chest);
+        assertEquals(9, portion.getWidth());
+        assertEquals(3, portion.getHeight());
+        assertEquals(9 * 3, portion.getSize());
     }
 
 }
