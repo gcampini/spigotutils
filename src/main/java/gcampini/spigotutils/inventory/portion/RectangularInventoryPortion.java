@@ -20,6 +20,9 @@ public class RectangularInventoryPortion extends InventoryPortion {
         BOTTOM_LEFT(0, 1),
         CENTER(0.5, 0.5);
 
+        /**
+         * Relatives coords.
+         */
         private final double x, y;
 
         InventorySeekingPoint(double x, double y) {
