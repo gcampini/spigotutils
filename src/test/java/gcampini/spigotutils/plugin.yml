@@ -1,0 +1,6 @@
+name: TestPlugin
+version: 0
+main: gcampini.spigotutils.TestPlugin
+commands:
+  test:
+    usage: /test ...
