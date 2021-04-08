@@ -22,6 +22,10 @@ public abstract class CommandSchema<T extends CommandSender> implements CommandE
         this.arguments = arguments;
     }
 
+    public CommandSchema(CommandArgument<?>... arguments) {
+        this(null, arguments);
+    }
+
     public CommandArgument<?>[] getArguments() {
         return arguments;
     }
