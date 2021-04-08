@@ -54,4 +54,17 @@ public class PlayerArgument implements IdentifiableCommandArgument<Player>, TabC
         return source.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayerArgument that = (PlayerArgument) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 }
