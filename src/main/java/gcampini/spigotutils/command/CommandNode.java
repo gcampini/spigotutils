@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * @author Gil CAMPINI
@@ -15,11 +16,14 @@ class CommandNode {
     private final CommandArgument<?> argument;
     @Nullable
     private CommandExecution<?> execution;
+    @Nullable
+    private final String permission;
     protected final Collection<CommandNode> nodes;
 
-    public CommandNode(CommandArgument<?> argument, @Nullable CommandExecution<?> execution) {
-        this.argument = argument;
+    public CommandNode(CommandArgument<?> argument, @Nullable CommandExecution<?> execution, @Nullable String permission) {
+        this.argument = Objects.requireNonNull(argument);
         this.execution = execution;
+        this.permission = permission;
         this.nodes = new ArrayList<>();
     }
 
@@ -45,6 +49,11 @@ class CommandNode {
     @Nullable
     public CommandExecution<?> getExecution() {
         return execution;
+    }
+
+    @Nullable
+    public String getPermission() {
+        return permission;
     }
 
     void setExecution(@Nullable CommandExecution<?> execution) {

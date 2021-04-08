@@ -3,6 +3,8 @@ package gcampini.spigotutils.command;
 import org.bukkit.command.CommandSender;
 
 /**
+ * Represents a command execution with a given sender and inputs.
+ *
  * @author Gil CAMPINI
  */
 @FunctionalInterface

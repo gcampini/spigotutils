@@ -46,7 +46,7 @@ public class CommandHandlerTest {
     @Test
     public void testCommandSender() {
         String successMessage = "success!";
-        handler.add(new CommandSchema<ConsoleCommandSender>() {
+        handler.add(new CommandSchema<ConsoleCommandSender>(permission) {
             @Override
             public void execute(ConsoleCommandSender sender, CommandInputs inputs) {
                 server.broadcastMessage(successMessage);
@@ -65,7 +65,7 @@ public class CommandHandlerTest {
     public void testCommandNotFound() {
         String successMessage = "success!";
         handler.add(new CommandSchema<>(
-                new WellKnownArgument("first")
+                permission, new WellKnownArgument("first")
         ) {
             @Override
             public void execute(CommandSender sender, CommandInputs inputs) {

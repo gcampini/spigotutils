@@ -9,6 +9,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
+ * Handles all sub command of a base {@link Command}.
+ *
  * @author Gil CAMPINI
  */
 public class CommandHandler extends CommandNode implements CommandExecutor, TabCompleter {
@@ -18,7 +20,7 @@ public class CommandHandler extends CommandNode implements CommandExecutor, TabC
     private final PluginCommand command;
 
     public CommandHandler(PluginCommand command, CommandSchema<?>... schemas) {
-        super(null, null);
+        super(null, null, null);
         this.command = Objects.requireNonNull(command, "command is null");
         if (HANDLERS.containsKey(command)) throw new IllegalArgumentException("command already has an handler");
         command.setExecutor(this);
@@ -48,7 +50,7 @@ public class CommandHandler extends CommandNode implements CommandExecutor, TabC
                 }
             }
             if (next == null) {
-                next = new CommandNode(argument, last ? schema : null);
+                next = new CommandNode(argument, last ? schema : null, last ? schema.getPermission() : null);
                 currentNodes.add(next);
             }
             currentNodes = next.getNodes();
@@ -72,6 +74,12 @@ public class CommandHandler extends CommandNode implements CommandExecutor, TabC
         try {
             CommandNode node = get(args, inputs);
             if (node == null) return false;
+            String permission = node.getPermission();
+            if (permission != null && !sender.hasPermission(permission)) {
+                // TODO: Give the possibility to change permission message
+                sender.sendMessage("You don't have permission to perform this command.");
+                return true;
+            }
             CommandExecution<?> execution = node.getExecution();
             if (execution == null) return false;
             execution.tryExecute(sender, inputs);
@@ -92,9 +100,12 @@ public class CommandHandler extends CommandNode implements CommandExecutor, TabC
         if (node == null) return null;
         List<String> possibilities = new ArrayList<>();
         for (CommandNode child : node.nodes) {
+            String permission = node.getPermission();
+            if (permission != null && !sender.hasPermission(permission)) continue;
             CommandArgument<?> argument = child.getArgument();
             if (argument instanceof TabCompletableCommandArgument) {
-                possibilities.addAll(((TabCompletableCommandArgument<?>) argument).possibilities(sender));
+                TabCompletableCommandArgument<?> completable = (TabCompletableCommandArgument<?>) argument;
+                possibilities.addAll((completable).possibilities(sender));
             }
         }
         return possibilities;

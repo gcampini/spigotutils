@@ -1,5 +1,6 @@
 package gcampini.spigotutils.command.argument;
 
+import gcampini.spigotutils.command.CommandInputs;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -11,6 +12,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
+ * Represents a {@link Player} argument.
+ * This argument concerns <strong>online</strong> players only.
+ *
  * @author Gil CAMPINI
  */
 public class PlayerArgument implements IdentifiableCommandArgument<Player>, TabCompletableCommandArgument<Player> {
@@ -18,6 +22,12 @@ public class PlayerArgument implements IdentifiableCommandArgument<Player>, TabC
     private final String id;
     private final Server source;
 
+    /**
+     * Creates a {@code PlayerArgument} instance.
+     *
+     * @param id     key to be stored in {@link CommandInputs}
+     * @param source server in which to find players
+     */
     public PlayerArgument(String id, Server source) {
         this.id = Objects.requireNonNull(id, "id is null");
         this.source = Objects.requireNonNull(source, "server source is null");

@@ -5,14 +5,27 @@ import org.bukkit.command.CommandSender;
 import java.util.*;
 
 /**
+ * Represents a well know argument.
+ * Use this argument if you expect a known string input as a command argument.
+ *
  * @author Gil CAMPINI
  */
 public class WellKnownArgument implements TabCompletableCommandArgument<String> {
 
-    private final List<String> aliases;
+    /**
+     * All valid aliases for this argument.
+     */
+    private final List<String> aliases = new ArrayList<>();
 
-    public WellKnownArgument(String... aliases) {
-        this.aliases = Arrays.asList(aliases);
+    /**
+     * Creates a {@code WellKnowArgument} instance.
+     *
+     * @param argument the expected string
+     * @param aliases  possible aliases
+     */
+    public WellKnownArgument(String argument, String... aliases) {
+        this.aliases.add(argument);
+        this.aliases.addAll(Arrays.asList(aliases));
     }
 
     @Override
@@ -35,12 +48,12 @@ public class WellKnownArgument implements TabCompletableCommandArgument<String> 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WellKnownArgument that = (WellKnownArgument) o;
-        return Objects.equals(aliases, that.aliases);
+        return Objects.equals(aliases.get(0), that.aliases.get(0));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(aliases);
+        return Objects.hash(aliases.get(0));
     }
 
 }
