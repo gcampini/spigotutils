@@ -32,8 +32,12 @@ public class PlayerArgument extends InputCommandArgument<Player> implements TabC
         this.source = Objects.requireNonNull(source, "server source is null");
     }
 
+    public PlayerArgument(String id) {
+        this(id, Bukkit.getServer());
+    }
+
     public PlayerArgument() {
-        this("player", Bukkit.getServer());
+        this("player");
     }
 
     @Override

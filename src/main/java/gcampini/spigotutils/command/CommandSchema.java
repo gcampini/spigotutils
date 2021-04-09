@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Represents a specific command with arguments, an execution and an eventual permission.
@@ -18,7 +19,8 @@ public abstract class CommandSchema<T extends CommandSender> implements CommandE
     private final String permission;
 
     public CommandSchema(@Nullable String permission, CommandArgument<?>... arguments) {
-        this.permission = permission;
+        if (permission != null) permission = permission.trim();
+        this.permission = Objects.equals(permission, "") ? null : permission;
         this.arguments = arguments;
     }
 

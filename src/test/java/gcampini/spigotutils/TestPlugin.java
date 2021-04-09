@@ -12,6 +12,10 @@ import java.io.File;
  */
 public class TestPlugin extends JavaPlugin {
 
+    private static TestPlugin instance;
+
+    public static final String TEST_COMMAND_USAGE = "/test ...";
+
     public TestPlugin() {
         super();
     }
@@ -21,7 +25,8 @@ public class TestPlugin extends JavaPlugin {
     }
 
     public static JavaPlugin get() {
-        return MockBukkit.loadWith(TestPlugin.class, new File("src/test/java/gcampini/spigotutils/plugin.yml"));
+        if (instance == null) instance = MockBukkit.loadWith(TestPlugin.class, new File("src/test/java/gcampini/spigotutils/plugin.yml"));
+        return instance;
     }
 
 }

@@ -1,5 +1,5 @@
 name: TestPlugin
-version: 0
+version: 1.0
 main: gcampini.spigotutils.TestPlugin
 commands:
   test:
