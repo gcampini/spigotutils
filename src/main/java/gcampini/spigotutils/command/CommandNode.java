@@ -1,7 +1,7 @@
 package gcampini.spigotutils.command;
 
 import gcampini.spigotutils.command.argument.CommandArgument;
-import gcampini.spigotutils.command.argument.IdentifiableCommandArgument;
+import gcampini.spigotutils.command.argument.InputCommandArgument;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ class CommandNode {
     private final String permission;
     protected final Collection<CommandNode> nodes;
 
-    public CommandNode(CommandArgument<?> argument, @Nullable CommandExecution<?> execution, @Nullable String permission) {
-        this.argument = Objects.requireNonNull(argument);
+    CommandNode(CommandArgument<?> argument, @Nullable CommandExecution<?> execution, @Nullable String permission) {
+        this.argument = argument;
         this.execution = execution;
         this.permission = permission;
         this.nodes = new ArrayList<>();
@@ -38,8 +38,8 @@ class CommandNode {
             CommandArgument<?> argument = node.getArgument();
             Object parsed = argument.evaluate(arg);
             if (parsed == null) continue;
-            if (inputs != null && argument instanceof IdentifiableCommandArgument) {
-                inputs.put(((IdentifiableCommandArgument<?>) argument).id(), parsed);
+            if (inputs != null && argument instanceof InputCommandArgument<?>) {
+                inputs.put(((InputCommandArgument<?>) argument).id(), parsed);
             }
             return node.get(args, depth + 1, inputs);
         }

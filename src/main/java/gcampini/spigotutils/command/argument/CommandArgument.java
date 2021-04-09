@@ -17,4 +17,7 @@ public interface CommandArgument<T> {
      */
     T evaluate(String arg) throws IllegalArgumentException;
 
+    @Override
+    boolean equals(Object o);
+
 }

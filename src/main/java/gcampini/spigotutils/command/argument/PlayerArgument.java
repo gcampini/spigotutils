@@ -17,9 +17,8 @@ import java.util.stream.Collectors;
  *
  * @author Gil CAMPINI
  */
-public class PlayerArgument implements IdentifiableCommandArgument<Player>, TabCompletableCommandArgument<Player> {
+public class PlayerArgument extends InputCommandArgument<Player> implements TabCompletableCommandArgument<Player> {
 
-    private final String id;
     private final Server source;
 
     /**
@@ -29,7 +28,7 @@ public class PlayerArgument implements IdentifiableCommandArgument<Player>, TabC
      * @param source server in which to find players
      */
     public PlayerArgument(String id, Server source) {
-        this.id = Objects.requireNonNull(id, "id is null");
+        super(id);
         this.source = Objects.requireNonNull(source, "server source is null");
     }
 
@@ -45,26 +44,8 @@ public class PlayerArgument implements IdentifiableCommandArgument<Player>, TabC
     }
 
     @Override
-    public String id() {
-        return id;
-    }
-
-    @Override
     public List<String> possibilities(CommandSender sender) {
         return source.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PlayerArgument that = (PlayerArgument) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
 }

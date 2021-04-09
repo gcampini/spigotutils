@@ -1,12 +1,12 @@
 package gcampini.spigotutils.command;
 
-import gcampini.spigotutils.command.argument.IdentifiableCommandArgument;
+import gcampini.spigotutils.command.argument.InputCommandArgument;
 
 import java.util.HashMap;
 
 /**
  * Represents the input arguments of a command when evaluated.
- * Only {@link IdentifiableCommandArgument} will be stored as inputs since each input needs to be identifiable by a key.
+ * Only evaluated arguments from {@link InputCommandArgument} will be stored as inputs since each input needs to be identifiable.
  * Exposes utility classes to retrieve inputs.
  *
  * @author Gil CAMPINI
