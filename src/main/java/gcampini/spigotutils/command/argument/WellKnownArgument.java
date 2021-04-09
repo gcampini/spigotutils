@@ -24,7 +24,7 @@ public class WellKnownArgument implements TabCompletableCommandArgument<String> 
      * @param aliases  possible aliases
      */
     public WellKnownArgument(String argument, String... aliases) {
-        this.aliases.add(argument);
+        this.aliases.add(Objects.requireNonNull(argument, "base argument is null"));
         this.aliases.addAll(Arrays.asList(aliases));
     }
 
