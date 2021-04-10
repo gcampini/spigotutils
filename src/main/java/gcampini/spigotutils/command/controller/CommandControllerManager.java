@@ -92,7 +92,7 @@ public class CommandControllerManager {
             } else arguments.add(argument);
         }
 
-        return new CommandSchema<>(c.permission(), arguments.toArray(new CommandArgument<?>[0])) {
+        return new CommandSchema<CommandSender>(c.permission(), arguments.toArray(new CommandArgument<?>[0])) {
             @Override
             public void execute(CommandSender sender, CommandInputs inputs) {
                 Object[] parametersValue = new Object[parameters.length];

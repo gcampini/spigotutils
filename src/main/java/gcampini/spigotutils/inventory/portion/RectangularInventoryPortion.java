@@ -69,12 +69,21 @@ public class RectangularInventoryPortion extends InventoryPortion {
         } else if (inventory instanceof InventoryPortion) {
             throw new IllegalArgumentException("cannot determine dimension because the inventory is an InventoryPortion, not necessarily a RectangularInventoryPortion");
         }
-        return switch (Objects.requireNonNull(inventory, "inventory is null").getType()) {
-            case BARREL, CHEST, ENDER_CHEST, PLAYER -> 9;
-            case HOPPER -> 5;
-            case DROPPER, DISPENSER, WORKBENCH -> 3;
-            default -> throw new InventoryNotRectangularException();
-        };
+        switch (Objects.requireNonNull(inventory, "inventory is null").getType()) {
+            case BARREL:
+            case CHEST:
+            case ENDER_CHEST:
+            case PLAYER:
+                return 9;
+            case HOPPER:
+                return 5;
+            case DROPPER:
+            case DISPENSER:
+            case WORKBENCH:
+                return 3;
+            default:
+                throw new InventoryNotRectangularException();
+        }
     }
 
     private static int getHeight(Inventory inventory) throws InventoryNotRectangularException {

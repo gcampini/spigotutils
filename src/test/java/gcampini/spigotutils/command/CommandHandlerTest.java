@@ -64,7 +64,7 @@ public class CommandHandlerTest {
     @Test
     public void testCommandNotFound() {
         String successMessage = "success!";
-        handler.add(new CommandSchema<>(
+        handler.add(new CommandSchema<CommandSender>(
                 new WellKnownArgument("first")
         ) {
             @Override
