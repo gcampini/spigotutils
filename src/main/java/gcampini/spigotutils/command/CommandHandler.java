@@ -25,37 +25,38 @@ public class CommandHandler extends CommandNode implements CommandExecutor, TabC
         if (HANDLERS.containsKey(command)) throw new IllegalArgumentException("command already has an handler");
         command.setExecutor(this);
         command.setTabCompleter(this);
-        for (CommandSchema<?> schema : schemas) add(schema);
+        add(schemas);
         HANDLERS.put(command, this);
     }
 
-    public void add(CommandSchema<?> schema) {
-        Collection<CommandNode> currentNodes = nodes;
-        CommandArgument<?>[] arguments = schema.getArguments();
+    public void add(CommandSchema<?>... schemas) {
+        for (CommandSchema<?> schema : schemas) {
+            Collection<CommandNode> currentNodes = nodes;
+            CommandArgument<?>[] arguments = schema.getArguments();
 
-        if (arguments.length == 0) {
-            setExecution(schema);
-            return;
-        }
+            if (arguments.length == 0) {
+                setExecution(schema);
+                return;
+            }
 
-        for (int depth = 0; depth < arguments.length; depth++) {
-            CommandArgument<?> argument = arguments[depth];
-            boolean last = depth == arguments.length - 1;
-            CommandNode next = null;
-            for (CommandNode node : currentNodes) {
-                if (node.getArgument().equals(argument)) {
-                    currentNodes = node.getNodes();
-                    next = node;
-                    break;
+            for (int depth = 0; depth < arguments.length; depth++) {
+                CommandArgument<?> argument = arguments[depth];
+                boolean last = depth == arguments.length - 1;
+                CommandNode next = null;
+                for (CommandNode node : currentNodes) {
+                    if (node.getArgument().equals(argument)) {
+                        currentNodes = node.getNodes();
+                        next = node;
+                        break;
+                    }
                 }
+                if (next == null) {
+                    next = new CommandNode(argument, last ? schema : null, last ? schema.getPermission() : null);
+                    currentNodes.add(next);
+                }
+                currentNodes = next.getNodes();
             }
-            if (next == null) {
-                next = new CommandNode(argument, last ? schema : null, last ? schema.getPermission() : null);
-                currentNodes.add(next);
-            }
-            currentNodes = next.getNodes();
         }
-
     }
 
     public void unload() {
