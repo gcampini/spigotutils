@@ -21,7 +21,7 @@ public class CommandHandler extends CommandNode implements CommandExecutor, TabC
     private final PluginCommand command;
 
     public CommandHandler(PluginCommand command, CommandSchema<?>... schemas) {
-        super(null, null, null);
+        super(null, null, null, null);
         this.command = Objects.requireNonNull(command, "command is null");
         if (HANDLERS.containsKey(command)) throw new IllegalArgumentException("command already has an handler");
         command.setExecutor(this);
@@ -56,7 +56,12 @@ public class CommandHandler extends CommandNode implements CommandExecutor, TabC
                     }
                 }
                 if (next == null) {
-                    next = new CommandNode(argument, last ? schema : null, last ? schema.getPermission() : null);
+                    next = new CommandNode(
+                            argument,
+                            last ? schema : null,
+                            last ? schema.getPermission() : null,
+                            last ? schema.getDescription() : null
+                    );
                     currentNodes.add(next);
                 }
                 currentNodes = next.getNodes();
