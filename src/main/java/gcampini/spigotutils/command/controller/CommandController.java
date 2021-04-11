@@ -1,51 +1,48 @@
 package gcampini.spigotutils.command.controller;
 
-import gcampini.spigotutils.command.CommandHandler;
 import gcampini.spigotutils.command.CommandInputs;
 import gcampini.spigotutils.command.CommandSchema;
 import gcampini.spigotutils.command.argument.CommandArgument;
 import gcampini.spigotutils.command.argument.InputCommandArgument;
 import gcampini.spigotutils.command.argument.WellKnownArgument;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Gil CAMPINI
  */
-public class CommandControllerManager {
+public abstract class CommandController {
 
-    public static CommandHandler buildCommandHandler(PluginCommand command, Class<?> controllerClass) throws InvalidCommandControllerException {
+    private final CommandSchema<?>[] schemas;
+
+    public CommandController() throws InvalidCommandControllerException {
         List<CommandSchema<?>> schemas = new ArrayList<>();
-        for (Method method : controllerClass.getMethods()) {
+        for (Method method : this.getClass().getMethods()) {
             if (!method.isAnnotationPresent(CommandAction.class)) continue;
             try {
-                //System.out.println(Arrays.toString(buildSchema(method).getArguments()));
                 schemas.add(buildSchema(method));
             } catch (InvalidCommandActionException e) {
                 throw new InvalidCommandControllerException(e.getMessage());
             }
         }
-        return new CommandHandler(command, schemas.toArray(new CommandSchema<?>[0]));
+        this.schemas = schemas.toArray(new CommandSchema<?>[0]);
     }
 
-    private static CommandSchema<?> buildSchema(Method method) throws InvalidCommandActionException {
-        Objects.requireNonNull(method, "method is null");
-        CommandAction c = method.getAnnotation(CommandAction.class);
-        if (c == null) throw new IllegalArgumentException("method is not annotated with @Command");
+    private CommandSchema<?> buildSchema(Method method) throws InvalidCommandActionException {
+        CommandAction action = method.getAnnotation(CommandAction.class);
 
-        // Method is necessarily public because we can see it
-        if (!Modifier.isPublic(method.getModifiers())) throw new InvalidCommandActionException("method is not public");
-        if (!Modifier.isStatic(method.getModifiers())) throw new InvalidCommandActionException("method is not static");
+        //if (!Modifier.isStatic(method.getModifiers())) throw new InvalidCommandActionException("method is not static");
 
         Parameter[] parameters = method.getParameters();
         List<CommandArgument<?>> arguments = new ArrayList<>();
 
-        for (String argumentString : c.value().trim().split(" ")) {
+        for (String argumentString : action.value().trim().split(" ")) {
             argumentString = argumentString.trim();
             if (argumentString.isEmpty()) continue;
             CommandArgument<?> argument = null;
@@ -92,7 +89,8 @@ public class CommandControllerManager {
             } else arguments.add(argument);
         }
 
-        return new CommandSchema<CommandSender>(c.permission(), arguments.toArray(new CommandArgument<?>[0])) {
+        CommandController that = this;
+        return new CommandSchema<CommandSender>(action.permission(), arguments.toArray(new CommandArgument<?>[0])) {
             @Override
             public void execute(CommandSender sender, CommandInputs inputs) {
                 Object[] parametersValue = new Object[parameters.length];
@@ -106,12 +104,16 @@ public class CommandControllerManager {
                     }
                 }
                 try {
-                    method.invoke(null, parametersValue);
+                    method.invoke(that, parametersValue);
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
         };
+    }
+
+    public CommandSchema<?>[] getSchemas() {
+        return schemas;
     }
 
 }

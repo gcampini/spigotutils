@@ -17,12 +17,15 @@ class CommandNode {
     private CommandExecution<?> execution;
     @Nullable
     private final String permission;
+    @Nullable
+    private final String description;
     protected final Collection<CommandNode> nodes;
 
-    CommandNode(CommandArgument<?> argument, @Nullable CommandExecution<?> execution, @Nullable String permission) {
+    CommandNode(CommandArgument<?> argument, @Nullable CommandExecution<?> execution, @Nullable String permission, @Nullable String description) {
         this.argument = argument;
         this.execution = execution;
         this.permission = permission;
+        this.description = description;
         this.nodes = new ArrayList<>();
     }
 
@@ -55,6 +58,11 @@ class CommandNode {
         return permission;
     }
 
+    @Nullable
+    public String getDescription() {
+        return description;
+    }
+
     void setExecution(@Nullable CommandExecution<?> execution) {
         this.execution = execution;
     }
@@ -65,6 +73,22 @@ class CommandNode {
 
     public Collection<CommandNode> getNodes() {
         return nodes;
+    }
+
+    public String toString(int depth) {
+        String nodeName = argument == null ? "root" : argument.toString();
+        StringBuilder sb = new StringBuilder(execution != null ? nodeName : "(" + nodeName + ")");
+        for (CommandNode node : nodes) {
+            sb.append("\n");
+            for (int i = 0; i < depth; i++) sb.append("  ");
+            sb.append("-> ").append(node.toString(depth + 1));
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return toString(0);
     }
 
 }

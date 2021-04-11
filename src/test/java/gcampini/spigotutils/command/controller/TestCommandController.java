@@ -7,15 +7,18 @@ import org.bukkit.entity.Player;
 /**
  * @author Gil CAMPINI
  */
-public class TestCommandController {
+public class TestCommandController extends CommandController {
+
+    public TestCommandController() throws InvalidCommandControllerException {
+    }
 
     @CommandAction(value = "")
-    public static void testBroadcast(@Sender CommandSender sender) {
+    public void testBroadcast(@Sender CommandSender sender) {
         sender.getServer().broadcastMessage("test");
     }
 
     @CommandAction(value = "health <amount>")
-    public static void testHealth(
+    public void testHealth(
             @Input(argument = IntegerArgument.class, id = "amount") int amount,
             @Sender Player player
     ) {

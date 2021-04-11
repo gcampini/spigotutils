@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Gil CAMPINI
  */
-public class CommandControllerManagerTest {
+public class CommandControllerTest {
 
     private static ServerMock server;
     private static JavaPlugin plugin;
@@ -41,7 +41,8 @@ public class CommandControllerManagerTest {
     @Test
     public void testBuid() {
         assertDoesNotThrow(() -> {
-            CommandControllerManager.buildCommandHandler(command, TestCommandController.class);
+            TestCommandController controller = new TestCommandController();
+            new CommandHandler(command, controller);
             PlayerMock player = server.addPlayer();
             player.performCommand("test");
             assertEquals("test", player.nextMessage());

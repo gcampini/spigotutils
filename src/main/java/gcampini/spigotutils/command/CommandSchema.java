@@ -1,11 +1,11 @@
 package gcampini.spigotutils.command;
 
+import com.google.common.base.Strings;
 import gcampini.spigotutils.command.argument.CommandArgument;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * Represents a specific command with arguments, an execution and an eventual permission.
@@ -17,11 +17,17 @@ public abstract class CommandSchema<T extends CommandSender> implements CommandE
     private final CommandArgument<?>[] arguments;
     @Nullable
     private final String permission;
+    @Nullable
+    private final String description;
+
+    public CommandSchema(@Nullable String description, @Nullable String permission, CommandArgument<?>... arguments) {
+        this.description = Strings.emptyToNull(description);
+        this.permission = Strings.emptyToNull(permission);
+        this.arguments = arguments;
+    }
 
     public CommandSchema(@Nullable String permission, CommandArgument<?>... arguments) {
-        if (permission != null) permission = permission.trim();
-        this.permission = Objects.equals(permission, "") ? null : permission;
-        this.arguments = arguments;
+        this(null, permission, arguments);
     }
 
     public CommandSchema(CommandArgument<?>... arguments) {
@@ -30,6 +36,11 @@ public abstract class CommandSchema<T extends CommandSender> implements CommandE
 
     public CommandArgument<?>[] getArguments() {
         return arguments;
+    }
+
+    @Nullable
+    public String getDescription() {
+        return description;
     }
 
     @Nullable

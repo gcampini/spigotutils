@@ -40,4 +40,9 @@ public abstract class InputCommandArgument<T> implements CommandArgument<T> {
         return Objects.hash(id());
     }
 
+    @Override
+    public String toString() {
+        return "<" + id + ":" + getClass().getSimpleName() + ">";
+    }
+
 }

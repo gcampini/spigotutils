@@ -2,6 +2,7 @@ package gcampini.spigotutils.command;
 
 import gcampini.spigotutils.command.argument.CommandArgument;
 import gcampini.spigotutils.command.argument.TabCompletableCommandArgument;
+import gcampini.spigotutils.command.controller.CommandController;
 import org.bukkit.command.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,10 @@ public class CommandHandler extends CommandNode implements CommandExecutor, TabC
         HANDLERS.put(command, this);
     }
 
+    public CommandHandler(PluginCommand command, CommandController controller) {
+        this(command, controller.getSchemas());
+    }
+
     public void add(CommandSchema<?>... schemas) {
         for (CommandSchema<?> schema : schemas) {
             Collection<CommandNode> currentNodes = nodes;
@@ -36,7 +41,7 @@ public class CommandHandler extends CommandNode implements CommandExecutor, TabC
 
             if (arguments.length == 0) {
                 setExecution(schema);
-                return;
+                continue;
             }
 
             for (int depth = 0; depth < arguments.length; depth++) {
