@@ -1,9 +1,39 @@
-<img src="./Logo.svg" width="318px" alt="Strapi logo" />
+<img src="./Logo.svg" width="318px" alt="SpiGotUtils logo" />
 
 #### Finally a complete and useful library for all your Spigot plugins.
 
 ## Installation
-// TODO expose to Maven
+This is how you can install the library.\
+For both methods, replace `Tag` with the release version you want (e.g `v0.1.0`).
+
+### Maven
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependency>
+    <groupId>com.github.gcampini</groupId>
+    <artifactId>spigotutils</artifactId>
+    <version>Tag</version>
+</dependency>
+```
+
+### Gradle
+```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+dependencies {
+    implementation 'com.github.gcampini:spigotutils:Tag'
+}
+```
 
 ## Goal
 The goal is to share with the Spigot's **developpers** community a complete set of utilities to highly speed up the development process and help you build performant and efficient

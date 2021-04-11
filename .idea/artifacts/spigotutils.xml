@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="spigotutils">
+    <output-path>$PROJECT_DIR$/out/artifacts/spigotutils</output-path>
+    <root id="archive" name="spigotutils.jar">
+      <element id="module-output" name="spigotutils" />
+    </root>
+  </artifact>
+</component>
