@@ -1,6 +1,6 @@
 <img src="./Logo.svg" width="318px" alt="SpiGotUtils logo" />
 
-#### Finally a complete and useful library for all your Spigot plugins.
+#### Finally a complete, well-thought and useful library for all your Spigot plugins.
 
 ## Installation
 This is how you can install the library.\
