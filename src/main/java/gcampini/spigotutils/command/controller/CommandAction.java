@@ -27,4 +27,11 @@ public @interface CommandAction {
      */
     String permission() default "";
 
+    /**
+     * Returns the description of the command.
+     *
+     * @return the description of the command
+     */
+    String description() default "";
+
 }

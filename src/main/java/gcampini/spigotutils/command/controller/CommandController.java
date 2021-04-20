@@ -90,7 +90,7 @@ public abstract class CommandController {
         }
 
         CommandController that = this;
-        return new CommandSchema<CommandSender>(action.permission(), arguments.toArray(new CommandArgument<?>[0])) {
+        return new CommandSchema<CommandSender>(action.description(), action.permission(), arguments.toArray(new CommandArgument<?>[0])) {
             @Override
             public void execute(CommandSender sender, CommandInputs inputs) {
                 Object[] parametersValue = new Object[parameters.length];
