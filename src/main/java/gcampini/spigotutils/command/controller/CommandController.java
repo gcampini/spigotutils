@@ -6,6 +6,7 @@ import gcampini.spigotutils.command.argument.CommandArgument;
 import gcampini.spigotutils.command.argument.InputCommandArgument;
 import gcampini.spigotutils.command.argument.WellKnownArgument;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -112,6 +113,7 @@ public abstract class CommandController {
         };
     }
 
+    @NotNull
     public CommandSchema<?>[] getSchemas() {
         return schemas;
     }

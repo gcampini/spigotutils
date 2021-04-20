@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -44,7 +45,8 @@ public class InventoryPortion implements Inventory {
         this.parent = Objects.requireNonNull(inventory, "inventory is null");
         Objects.requireNonNull(mapping, "mapping is null");
         for (int slot : mapping) {
-            if (slot < 0 || slot >= inventory.getSize()) throw new ArrayIndexOutOfBoundsException("mapping contains an out of bounds slot");
+            if (slot < 0 || slot >= inventory.getSize())
+                throw new ArrayIndexOutOfBoundsException("mapping contains an out of bounds slot");
         }
         this.mapping = mapping;
     }
@@ -81,7 +83,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) throws IllegalArgumentException {
+    public @NotNull HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) throws IllegalArgumentException {
         if (itemStacks == null || Arrays.stream(itemStacks).anyMatch(Objects::isNull))
             throw new IllegalArgumentException();
         // TODO
@@ -89,7 +91,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public HashMap<Integer, ItemStack> removeItem(ItemStack... itemStacks) throws IllegalArgumentException {
+    public @NotNull HashMap<Integer, ItemStack> removeItem(ItemStack... itemStacks) throws IllegalArgumentException {
         // TODO
         return new HashMap<>();
     }
@@ -104,7 +106,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public void setContents(ItemStack[] itemStacks) throws IllegalArgumentException {
+    public void setContents(@NotNull ItemStack[] itemStacks) throws IllegalArgumentException {
         if (itemStacks.length > getSize()) throw new IllegalArgumentException();
         clear();
         for (int slot = 0; slot < itemStacks.length; slot++) {
@@ -124,7 +126,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public boolean contains(Material material) throws IllegalArgumentException {
+    public boolean contains(@NotNull Material material) throws IllegalArgumentException {
         return contains(material, 1);
     }
 
@@ -134,8 +136,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public boolean contains(Material material, int amount) throws IllegalArgumentException {
-        if (material == null) throw new IllegalArgumentException("material is null");
+    public boolean contains(@NotNull Material material, int amount) throws IllegalArgumentException {
         if (amount < 1) return true;
         int found = 0;
         for (int slot = 0; slot < getSize(); slot++) {
@@ -172,8 +173,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public HashMap<Integer, ? extends ItemStack> all(Material material) throws IllegalArgumentException {
-        if (material == null) throw new IllegalArgumentException("material is null");
+    public @NotNull HashMap<Integer, ? extends ItemStack> all(@NotNull Material material) throws IllegalArgumentException {
         HashMap<Integer, ItemStack> map = new HashMap<>();
         for (int slot = 0; slot < getSize(); slot++) {
             ItemStack current = getItem(slot);
@@ -183,7 +183,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public HashMap<Integer, ? extends ItemStack> all(ItemStack itemStack) {
+    public @NotNull HashMap<Integer, ? extends ItemStack> all(ItemStack itemStack) {
         HashMap<Integer, ItemStack> map = new HashMap<>();
         if (itemStack == null) return map;
         for (int slot = 0; slot < getSize(); slot++) {
@@ -194,8 +194,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public int first(Material material) throws IllegalArgumentException {
-        if (material == null) throw new IllegalArgumentException("material is null");
+    public int first(@NotNull Material material) throws IllegalArgumentException {
         if (material == Material.AIR) return firstEmpty();
         for (int slot = 0; slot < getSize(); slot++) {
             ItemStack stack = getItem(slot);
@@ -205,8 +204,8 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public int first(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == Material.AIR) return firstEmpty();
+    public int first(@NotNull ItemStack itemStack) {
+        if (itemStack.getType() == Material.AIR) return firstEmpty();
         for (int slot = 0; slot < getSize(); slot++) {
             if (itemStack.equals(getItem(slot))) return slot;
         }
@@ -232,8 +231,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public void remove(Material material) throws IllegalArgumentException {
-        if (material == null) throw new IllegalArgumentException("material is null");
+    public void remove(@NotNull Material material) throws IllegalArgumentException {
         if (material == Material.AIR) return;
         for (int slot = 0; slot < getSize(); slot++) {
             ItemStack stack = getItem(slot);
@@ -242,8 +240,7 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
-    public void remove(ItemStack itemStack) {
-        if (itemStack == null) return;
+    public void remove(@NotNull ItemStack itemStack) {
         for (int slot = 0; slot < getSize(); slot++) {
             if (itemStack.equals(getItem(slot))) clear(slot);
         }
@@ -261,11 +258,13 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
+    @NotNull
     public List<HumanEntity> getViewers() {
         return parent.getViewers();
     }
 
     @Override
+    @NotNull
     public InventoryType getType() {
         return parent.getType();
     }
@@ -276,11 +275,13 @@ public class InventoryPortion implements Inventory {
     }
 
     @Override
+    @NotNull
     public ListIterator<ItemStack> iterator() {
         return iterator(0);
     }
 
     @Override
+    @NotNull
     public ListIterator<ItemStack> iterator(int index) {
         requireNotOutOfBounds(index);
         return Arrays.asList(getContents()).listIterator(index);

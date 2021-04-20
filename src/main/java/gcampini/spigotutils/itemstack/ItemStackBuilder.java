@@ -4,7 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,11 +20,11 @@ public class ItemStackBuilder {
 
     private final ItemStack stack;
 
-    public ItemStackBuilder(ItemStack stack) {
+    public ItemStackBuilder(@NotNull ItemStack stack) {
         this.stack = new ItemStack(stack);
     }
 
-    public ItemStackBuilder(Material material) {
+    public ItemStackBuilder(@NotNull Material material) {
         this.stack = new ItemStack(material);
     }
 
@@ -31,39 +32,48 @@ public class ItemStackBuilder {
         this(Material.AIR);
     }
 
-    public ItemStackBuilder meta(Consumer<ItemMeta> modifier) {
+    @NotNull
+    public ItemStackBuilder meta(@NotNull Consumer<ItemMeta> modifier) {
         ItemMeta meta = stack.getItemMeta();
         if (meta != null) modifier.accept(meta);
         stack.setItemMeta(meta);
         return this;
     }
 
-    public ItemStackBuilder data(Consumer<PersistentDataContainer> modifier) {
+    @NotNull
+    public ItemStackBuilder data(@NotNull Consumer<PersistentDataContainer> modifier) {
         return meta(meta -> modifier.accept(meta.getPersistentDataContainer()));
     }
 
-    public ItemStackBuilder type(Material type) {
+    @NotNull
+    public ItemStackBuilder type(@Nullable Material type) {
+        if (type == null) type = Material.AIR;
         stack.setType(type);
         return this;
     }
 
+    @NotNull
     public ItemStackBuilder amount(int amount) {
         stack.setAmount(amount);
         return this;
     }
 
-    public ItemStackBuilder name(String name) {
+    @NotNull
+    public ItemStackBuilder name(@Nullable String name) {
         return meta(meta -> meta.setDisplayName(name));
     }
 
-    public ItemStackBuilder lore(List<String> lore) {
+    @NotNull
+    public ItemStackBuilder lore(@Nullable List<String> lore) {
         return meta(meta -> meta.setLore(lore));
     }
 
-    public ItemStackBuilder lore(String ...lore) {
+    @NotNull
+    public ItemStackBuilder lore(@NotNull String... lore) {
         return lore(Arrays.asList(lore));
     }
 
+    @NotNull
     public ItemStack build() {
         return new ItemStack(stack);
     }

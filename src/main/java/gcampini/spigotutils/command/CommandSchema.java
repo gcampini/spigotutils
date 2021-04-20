@@ -3,6 +3,7 @@ package gcampini.spigotutils.command;
 import com.google.common.base.Strings;
 import gcampini.spigotutils.command.argument.CommandArgument;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -15,18 +16,16 @@ import java.util.Arrays;
 public abstract class CommandSchema<T extends CommandSender> implements CommandExecution<T> {
 
     private final CommandArgument<?>[] arguments;
-    @Nullable
     private final String permission;
-    @Nullable
     private final String description;
 
-    public CommandSchema(@Nullable String description, @Nullable String permission, CommandArgument<?>... arguments) {
+    public CommandSchema(@Nullable String description, @Nullable String permission, @NotNull CommandArgument<?>... arguments) {
         this.description = Strings.emptyToNull(description);
         this.permission = Strings.emptyToNull(permission);
         this.arguments = arguments;
     }
 
-    public CommandSchema(@Nullable String permission, CommandArgument<?>... arguments) {
+    public CommandSchema(String permission, CommandArgument<?>... arguments) {
         this(null, permission, arguments);
     }
 
@@ -34,6 +33,7 @@ public abstract class CommandSchema<T extends CommandSender> implements CommandE
         this(null, arguments);
     }
 
+    @NotNull
     public CommandArgument<?>[] getArguments() {
         return arguments;
     }

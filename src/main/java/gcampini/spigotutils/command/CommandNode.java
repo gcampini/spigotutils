@@ -2,6 +2,7 @@ package gcampini.spigotutils.command;
 
 import gcampini.spigotutils.command.argument.CommandArgument;
 import gcampini.spigotutils.command.argument.InputCommandArgument;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -13,15 +14,12 @@ import java.util.Collection;
 class CommandNode {
 
     private final CommandArgument<?> argument;
-    @Nullable
     private CommandExecution<?> execution;
-    @Nullable
     private final String permission;
-    @Nullable
     private final String description;
     protected final Collection<CommandNode> nodes;
 
-    CommandNode(CommandArgument<?> argument, @Nullable CommandExecution<?> execution, @Nullable String permission, @Nullable String description) {
+    CommandNode(@Nullable CommandArgument<?> argument, @Nullable CommandExecution<?> execution, @Nullable String permission, @Nullable String description) {
         this.argument = argument;
         this.execution = execution;
         this.permission = permission;
@@ -29,11 +27,13 @@ class CommandNode {
         this.nodes = new ArrayList<>();
     }
 
+    @Nullable
     public CommandNode get(String[] args, @Nullable CommandInputs inputs) {
         return get(args, 0, inputs);
     }
 
-    private CommandNode get(String[] args, int depth, @Nullable CommandInputs inputs) throws IllegalArgumentException {
+    @Nullable
+    private CommandNode get(@NotNull String[] args, int depth, @Nullable CommandInputs inputs) throws IllegalArgumentException {
         if (depth == args.length) return this;
         String arg = args[depth];
         for (CommandNode node : nodes) {
@@ -67,14 +67,17 @@ class CommandNode {
         this.execution = execution;
     }
 
+    @Nullable
     public CommandArgument<?> getArgument() {
         return argument;
     }
 
+    @NotNull
     public Collection<CommandNode> getNodes() {
         return nodes;
     }
 
+    @NotNull
     public String toString(int depth) {
         String nodeName = argument == null ? "root" : argument.toString();
         StringBuilder sb = new StringBuilder(execution != null ? nodeName : "(" + nodeName + ")");
