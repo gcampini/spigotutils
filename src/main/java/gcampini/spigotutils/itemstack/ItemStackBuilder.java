@@ -1,8 +1,10 @@
 package gcampini.spigotutils.itemstack;
 
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -71,6 +73,13 @@ public class ItemStackBuilder {
     @NotNull
     public ItemStackBuilder lore(@NotNull String... lore) {
         return lore(Arrays.asList(lore));
+    }
+
+    @NotNull
+    public ItemStackBuilder head(@Nullable OfflinePlayer player) {
+        return type(Material.PLAYER_HEAD).meta(meta -> {
+            ((SkullMeta) meta).setOwningPlayer(player);
+        });
     }
 
     @NotNull
