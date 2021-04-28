@@ -77,9 +77,7 @@ public class ItemStackBuilder {
 
     @NotNull
     public ItemStackBuilder head(@Nullable OfflinePlayer player) {
-        return type(Material.PLAYER_HEAD).meta(meta -> {
-            ((SkullMeta) meta).setOwningPlayer(player);
-        });
+        return type(Material.PLAYER_HEAD).meta(meta -> ((SkullMeta) meta).setOwningPlayer(player));
     }
 
     @NotNull
