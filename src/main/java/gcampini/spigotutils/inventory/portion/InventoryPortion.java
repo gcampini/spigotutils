@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * Class representing a portion (or a view, or a sub-inventory) of a parent inventory.
@@ -40,6 +41,7 @@ public class InventoryPortion implements Inventory {
      * @param inventory the parent inventory
      * @param mapping   the slot mapping ([4, 5] means slot 0 of the portion maps to slot 4 of the parent, and 1 maps to 5)
      * @throws ArrayIndexOutOfBoundsException if mapping contains an out of bounds slot
+     * @throws IllegalArgumentException       if mapping contains two times or more the same slot
      */
     public InventoryPortion(Inventory inventory, int[] mapping) throws ArrayIndexOutOfBoundsException {
         this.parent = Objects.requireNonNull(inventory, "inventory is null");
@@ -53,6 +55,15 @@ public class InventoryPortion implements Inventory {
             duplicates.add(slot);
         }
         this.mapping = mapping;
+    }
+
+    /**
+     * Creates an instance of {@code InventoryPortion} matching the whole inventory.
+     *
+     * @param inventory the parent inventory
+     */
+    public InventoryPortion(Inventory inventory) {
+        this(inventory, IntStream.range(0, inventory.getSize()).toArray());
     }
 
     private void requireNotOutOfBounds(int slot) {
