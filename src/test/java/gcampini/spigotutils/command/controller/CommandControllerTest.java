@@ -1,13 +1,10 @@
 package gcampini.spigotutils.command.controller;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import gcampini.spigotutils.PluginInvolvingTest;
 import gcampini.spigotutils.TestPlugin;
 import gcampini.spigotutils.command.CommandHandler;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,18 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Gil CAMPINI
  */
-public class CommandControllerTest {
-
-    private static ServerMock server;
-    private static JavaPlugin plugin;
+public class CommandControllerTest extends PluginInvolvingTest {
 
     private PluginCommand command;
-
-    @BeforeAll
-    public static void setup() {
-        server = MockBukkit.getOrCreateMock();
-        plugin = TestPlugin.get();
-    }
 
     @BeforeEach
     public void each() {

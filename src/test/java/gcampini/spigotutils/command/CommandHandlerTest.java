@@ -1,15 +1,11 @@
 package gcampini.spigotutils.command;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import gcampini.spigotutils.TestPlugin;
+import gcampini.spigotutils.PluginInvolvingTest;
 import gcampini.spigotutils.command.argument.WellKnownArgument;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,25 +16,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Gil CAMPINI
  */
-public class CommandHandlerTest {
+public class CommandHandlerTest extends PluginInvolvingTest {
 
-    private static ServerMock server;
-    private static JavaPlugin plugin;
     private final static String USAGE = "/test ...";
 
     private CommandHandler handler;
-
-    @BeforeAll
-    public static void setup() {
-        server = MockBukkit.getOrCreateMock();
-        plugin = TestPlugin.get();
-    }
 
     @BeforeEach
     public void each() {
         PluginCommand command = plugin.getCommand("test");
         CommandHandler handler = CommandHandler.getHandler(command);
         if (handler != null) handler.unload();
+        assert command != null;
         this.handler = new CommandHandler(command);
         server.setPlayers(0);
     }

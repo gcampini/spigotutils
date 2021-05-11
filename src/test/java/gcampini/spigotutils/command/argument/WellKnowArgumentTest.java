@@ -1,8 +1,6 @@
 package gcampini.spigotutils.command.argument;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import org.junit.jupiter.api.BeforeAll;
+import gcampini.spigotutils.ServerInvolvingTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,14 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Gil CAMPINI
  */
-public class WellKnowArgumentTest {
-
-    private static ServerMock server;
-
-    @BeforeAll
-    public static void setup() {
-        server = MockBukkit.getOrCreateMock();
-    }
+public class WellKnowArgumentTest extends ServerInvolvingTest {
 
     @Test
     public void toStringTest() {

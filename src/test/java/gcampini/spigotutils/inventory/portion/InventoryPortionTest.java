@@ -1,10 +1,8 @@
 package gcampini.spigotutils.inventory.portion;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import gcampini.spigotutils.ServerInvolvingTest;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -17,14 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  *
  * @author Gil CAMPINI
  */
-public class InventoryPortionTest {
-
-    private static ServerMock server;
-
-    @BeforeAll
-    public static void setup() {
-        server = MockBukkit.getOrCreateMock();
-    }
+public class InventoryPortionTest extends ServerInvolvingTest {
 
     @Test
     public void testConstructor() {
