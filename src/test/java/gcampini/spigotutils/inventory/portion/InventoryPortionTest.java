@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for {@link InventoryPortion}.
@@ -29,6 +28,7 @@ public class InventoryPortionTest extends ServerInvolvingTest {
         int[] mapping = new int[inventory.getSize()];
         for (int slot = 0; slot < mapping.length; slot++) mapping[slot] = inventory.getSize() - slot - 1;
         assertDoesNotThrow(() -> new InventoryPortion(inventory, mapping));
+        assertEquals(inventory.getSize(), new InventoryPortion(inventory).getSize());
     }
 
 }
