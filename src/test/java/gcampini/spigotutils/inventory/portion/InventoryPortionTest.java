@@ -35,8 +35,8 @@ public class InventoryPortionTest {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> new InventoryPortion(inventory, new int[]{-1}));
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> new InventoryPortion(inventory, new int[]{inventory.getSize()}));
         // Success
-        int[] mapping = new int[random.nextInt(100)];
-        for (int slot = 0; slot < mapping.length; slot++) mapping[slot] = random.nextInt(inventory.getSize());
+        int[] mapping = new int[inventory.getSize()];
+        for (int slot = 0; slot < mapping.length; slot++) mapping[slot] = inventory.getSize() - slot - 1;
         assertDoesNotThrow(() -> new InventoryPortion(inventory, mapping));
     }
 
