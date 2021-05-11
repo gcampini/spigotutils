@@ -44,9 +44,13 @@ public class InventoryPortion implements Inventory {
     public InventoryPortion(Inventory inventory, int[] mapping) throws ArrayIndexOutOfBoundsException {
         this.parent = Objects.requireNonNull(inventory, "inventory is null");
         Objects.requireNonNull(mapping, "mapping is null");
+        List<Integer> duplicates = new ArrayList<>();
         for (int slot : mapping) {
             if (slot < 0 || slot >= inventory.getSize())
                 throw new ArrayIndexOutOfBoundsException("mapping contains an out of bounds slot");
+            if (duplicates.contains(slot))
+                throw new IllegalArgumentException("mapping contains two times or more the same slot");
+            duplicates.add(slot);
         }
         this.mapping = mapping;
     }
@@ -290,6 +294,15 @@ public class InventoryPortion implements Inventory {
     @Override
     public Location getLocation() {
         return parent.getLocation();
+    }
+
+    /**
+     * Returns the slot mapping for this {@code InventoryPortion}.
+     *
+     * @return the slot mapping
+     */
+    public int[] getMapping() {
+        return mapping;
     }
 
     /**
